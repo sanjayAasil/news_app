@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/View/Home/home_page.dart';
 import 'package:news_app/ViewModel/theme_provider.dart';
-import 'package:news_app/dataManager.dart';
 import 'package:news_app/global.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,12 +18,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = ThemeProvider();
-    DataManager dataManager = DataManager();
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => themeProvider),
-        ChangeNotifierProvider(create: (_) => dataManager),
-      ],
+    return ChangeNotifierProvider(
+      create: (_) => themeProvider,
       builder: (context, child) {
         context.watch<ThemeProvider>();
         return MaterialApp(

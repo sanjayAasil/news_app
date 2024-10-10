@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:news_app/Api/api_service.dart';
 import 'package:news_app/View/Home/news_tile.dart';
 import 'package:news_app/ViewModel/theme_provider.dart';
-import 'package:news_app/dataManager.dart';
 import 'package:provider/provider.dart';
 import '../../Model/news.dart';
 
@@ -43,7 +42,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     context.watch<ThemeProvider>();
-    context.watch<DataManager>();
 
     return Scaffold(
       appBar: AppBar(
@@ -54,10 +52,12 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         actions: [
-          Switch(
-            activeColor: Colors.grey,
-            value: ThemeProvider().isDarkTheme,
-            onChanged: (value) => ThemeProvider().toggleTheme(),
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: IconButton(
+              onPressed: ThemeProvider().toggleTheme,
+              icon: ThemeProvider().isDarkTheme ? const Icon(Icons.dark_mode) : const Icon(Icons.sunny),
+            ),
           ),
         ],
       ),
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _searchNews(String query) async {
-    if(query.isEmpty) return;
+    if (query.isEmpty) return;
     FocusScope.of(context).unfocus();
 
     _fetchData(query);
