@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:versatile_dialogs/loading_dialog.dart';
 
 import '../Model/news.dart';
 
@@ -71,10 +72,14 @@ class SingleNewsScreen extends StatelessWidget {
                   foregroundColor: WidgetStatePropertyAll(Colors.blue),
                 ),
                 onPressed: () async {
+                  LoadingDialog loadingDialog = LoadingDialog()..show(context);
                   if (await canLaunchUrl(Uri.parse(news.url))) {
                     await launchUrl(Uri.parse(news.url));
                   } else {
                     throw 'Could not launch ${news.url}';
+                  }
+                  if (context.mounted) {
+                    loadingDialog.dismiss(context);
                   }
                 },
                 child: Text(news.url),
